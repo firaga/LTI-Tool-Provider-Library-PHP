@@ -1,7 +1,7 @@
 {
   "name": "firaga/lti",
   "version": "0.0.1",
-  "description": "LTI Tool Provider Library",
+  "description": "LTI Tool Provider Library.",
   "keywords": [
     "lti"
   ],
