@@ -21,293 +21,293 @@ use IMSGlobal\LTI\OAuth;
 class ToolProvider
 {
 
-/**
- * Default connection error message.
- */
+    /**
+     * Default connection error message.
+     */
     const CONNECTION_ERROR_MESSAGE = 'Sorry, there was an error connecting you to the application.';
 
-/**
- * LTI version 1 for messages.
- */
+    /**
+     * LTI version 1 for messages.
+     */
     const LTI_VERSION1 = 'LTI-1p0';
-/**
- * LTI version 2 for messages.
- */
+    /**
+     * LTI version 2 for messages.
+     */
     const LTI_VERSION2 = 'LTI-2p0';
-/**
- * Use ID value only.
- */
+    /**
+     * Use ID value only.
+     */
     const ID_SCOPE_ID_ONLY = 0;
-/**
- * Prefix an ID with the consumer key.
- */
+    /**
+     * Prefix an ID with the consumer key.
+     */
     const ID_SCOPE_GLOBAL = 1;
-/**
- * Prefix the ID with the consumer key and context ID.
- */
+    /**
+     * Prefix the ID with the consumer key and context ID.
+     */
     const ID_SCOPE_CONTEXT = 2;
-/**
- * Prefix the ID with the consumer key and resource ID.
- */
+    /**
+     * Prefix the ID with the consumer key and resource ID.
+     */
     const ID_SCOPE_RESOURCE = 3;
-/**
- * Character used to separate each element of an ID.
- */
+    /**
+     * Character used to separate each element of an ID.
+     */
     const ID_SCOPE_SEPARATOR = ':';
 
-/**
- * Permitted LTI versions for messages.
- */
+    /**
+     * Permitted LTI versions for messages.
+     */
     private static $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
-/**
- * List of supported message types and associated class methods.
- */
+    /**
+     * List of supported message types and associated class methods.
+     */
     private static $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
-                                          'ContentItemSelectionRequest' => 'onContentItem',
-                                          'ToolProxyRegistrationRequest' => 'register');
-/**
- * List of supported message types and associated class methods
- *
- * @var array $METHOD_NAMES
- */
+        'ContentItemSelectionRequest' => 'onContentItem',
+        'ToolProxyRegistrationRequest' => 'register');
+    /**
+     * List of supported message types and associated class methods
+     *
+     * @var array $METHOD_NAMES
+     */
     private static $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
-                                         'ContentItemSelectionRequest' => 'onContentItem',
-                                         'ToolProxyRegistrationRequest' => 'onRegister');
-/**
- * Names of LTI parameters to be retained in the consumer settings property.
- *
- * @var array $LTI_CONSUMER_SETTING_NAMES
- */
+        'ContentItemSelectionRequest' => 'onContentItem',
+        'ToolProxyRegistrationRequest' => 'onRegister');
+    /**
+     * Names of LTI parameters to be retained in the consumer settings property.
+     *
+     * @var array $LTI_CONSUMER_SETTING_NAMES
+     */
     private static $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
-/**
- * Names of LTI parameters to be retained in the context settings property.
- *
- * @var array $LTI_CONTEXT_SETTING_NAMES
- */
+    /**
+     * Names of LTI parameters to be retained in the context settings property.
+     *
+     * @var array $LTI_CONTEXT_SETTING_NAMES
+     */
     private static $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
-                                                      'custom_lineitems_url', 'custom_results_url',
-                                                      'custom_context_memberships_url');
-/**
- * Names of LTI parameters to be retained in the resource link settings property.
- *
- * @var array $LTI_RESOURCE_LINK_SETTING_NAMES
- */
+        'custom_lineitems_url', 'custom_results_url',
+        'custom_context_memberships_url');
+    /**
+     * Names of LTI parameters to be retained in the resource link settings property.
+     *
+     * @var array $LTI_RESOURCE_LINK_SETTING_NAMES
+     */
     private static $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid', 'lis_outcome_service_url',
-                                                            'ext_ims_lis_basic_outcome_url', 'ext_ims_lis_resultvalue_sourcedids',
-                                                            'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
-                                                            'ext_ims_lti_tool_setting', 'ext_ims_lti_tool_setting_id', 'ext_ims_lti_tool_setting_url',
-                                                            'custom_link_setting_url',
-                                                            'custom_lineitem_url', 'custom_result_url');
-/**
- * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
- *
- * @var array $CUSTOM_SUBSTITUTION_VARIABLES
- */
+        'ext_ims_lis_basic_outcome_url', 'ext_ims_lis_resultvalue_sourcedids',
+        'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
+        'ext_ims_lti_tool_setting', 'ext_ims_lti_tool_setting_id', 'ext_ims_lti_tool_setting_url',
+        'custom_link_setting_url',
+        'custom_lineitem_url', 'custom_result_url');
+    /**
+     * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
+     *
+     * @var array $CUSTOM_SUBSTITUTION_VARIABLES
+     */
     private static $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
-                                                          'User.image' => 'user_image',
-                                                          'User.username' => 'username',
-                                                          'User.scope.mentor' => 'role_scope_mentor',
-                                                          'Membership.role' => 'roles',
-                                                          'Person.sourcedId' => 'lis_person_sourcedid',
-                                                          'Person.name.full' => 'lis_person_name_full',
-                                                          'Person.name.family' => 'lis_person_name_family',
-                                                          'Person.name.given' => 'lis_person_name_given',
-                                                          'Person.email.primary' => 'lis_person_contact_email_primary',
-                                                          'Context.id' => 'context_id',
-                                                          'Context.type' => 'context_type',
-                                                          'Context.title' => 'context_title',
-                                                          'Context.label' => 'context_label',
-                                                          'CourseOffering.sourcedId' => 'lis_course_offering_sourcedid',
-                                                          'CourseSection.sourcedId' => 'lis_course_section_sourcedid',
-                                                          'CourseSection.label' => 'context_label',
-                                                          'CourseSection.title' => 'context_title',
-                                                          'ResourceLink.id' => 'resource_link_id',
-                                                          'ResourceLink.title' => 'resource_link_title',
-                                                          'ResourceLink.description' => 'resource_link_description',
-                                                          'Result.sourcedId' => 'lis_result_sourcedid',
-                                                          'BasicOutcome.url' => 'lis_outcome_service_url',
-                                                          'ToolConsumerProfile.url' => 'custom_tc_profile_url',
-                                                          'ToolProxy.url' => 'tool_proxy_url',
-                                                          'ToolProxy.custom.url' => 'custom_system_setting_url',
-                                                          'ToolProxyBinding.custom.url' => 'custom_context_setting_url',
-                                                          'LtiLink.custom.url' => 'custom_link_setting_url',
-                                                          'LineItems.url' => 'custom_lineitems_url',
-                                                          'LineItem.url' => 'custom_lineitem_url',
-                                                          'Results.url' => 'custom_results_url',
-                                                          'Result.url' => 'custom_result_url',
-                                                          'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url');
+        'User.image' => 'user_image',
+        'User.username' => 'username',
+        'User.scope.mentor' => 'role_scope_mentor',
+        'Membership.role' => 'roles',
+        'Person.sourcedId' => 'lis_person_sourcedid',
+        'Person.name.full' => 'lis_person_name_full',
+        'Person.name.family' => 'lis_person_name_family',
+        'Person.name.given' => 'lis_person_name_given',
+        'Person.email.primary' => 'lis_person_contact_email_primary',
+        'Context.id' => 'context_id',
+        'Context.type' => 'context_type',
+        'Context.title' => 'context_title',
+        'Context.label' => 'context_label',
+        'CourseOffering.sourcedId' => 'lis_course_offering_sourcedid',
+        'CourseSection.sourcedId' => 'lis_course_section_sourcedid',
+        'CourseSection.label' => 'context_label',
+        'CourseSection.title' => 'context_title',
+        'ResourceLink.id' => 'resource_link_id',
+        'ResourceLink.title' => 'resource_link_title',
+        'ResourceLink.description' => 'resource_link_description',
+        'Result.sourcedId' => 'lis_result_sourcedid',
+        'BasicOutcome.url' => 'lis_outcome_service_url',
+        'ToolConsumerProfile.url' => 'custom_tc_profile_url',
+        'ToolProxy.url' => 'tool_proxy_url',
+        'ToolProxy.custom.url' => 'custom_system_setting_url',
+        'ToolProxyBinding.custom.url' => 'custom_context_setting_url',
+        'LtiLink.custom.url' => 'custom_link_setting_url',
+        'LineItems.url' => 'custom_lineitems_url',
+        'LineItem.url' => 'custom_lineitem_url',
+        'Results.url' => 'custom_results_url',
+        'Result.url' => 'custom_result_url',
+        'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url');
 
 
-/**
- * True if the last request was successful.
- *
- * @var boolean $ok
- */
+    /**
+     * True if the last request was successful.
+     *
+     * @var boolean $ok
+     */
     public $ok = true;
-/**
- * Tool Consumer object.
- *
- * @var ToolConsumer $consumer
- */
+    /**
+     * Tool Consumer object.
+     *
+     * @var ToolConsumer $consumer
+     */
     public $consumer = null;
-/**
- * Return URL provided by tool consumer.
- *
- * @var string $returnUrl
- */
+    /**
+     * Return URL provided by tool consumer.
+     *
+     * @var string $returnUrl
+     */
     public $returnUrl = null;
-/**
- * User object.
- *
- * @var User $user
- */
+    /**
+     * User object.
+     *
+     * @var User $user
+     */
     public $user = null;
-/**
- * Resource link object.
- *
- * @var ResourceLink $resourceLink
- */
+    /**
+     * Resource link object.
+     *
+     * @var ResourceLink $resourceLink
+     */
     public $resourceLink = null;
-/**
- * Context object.
- *
- * @var Context $context
- */
+    /**
+     * Context object.
+     *
+     * @var Context $context
+     */
     public $context = null;
-/**
- * Data connector object.
- *
- * @var DataConnector $dataConnector
- */
+    /**
+     * Data connector object.
+     *
+     * @var DataConnector $dataConnector
+     */
     public $dataConnector = null;
-/**
- * Default email domain.
- *
- * @var string $defaultEmail
- */
+    /**
+     * Default email domain.
+     *
+     * @var string $defaultEmail
+     */
     public $defaultEmail = '';
-/**
- * Scope to use for user IDs.
- *
- * @var int $idScope
- */
+    /**
+     * Scope to use for user IDs.
+     *
+     * @var int $idScope
+     */
     public $idScope = self::ID_SCOPE_ID_ONLY;
-/**
- * Whether shared resource link arrangements are permitted.
- *
- * @var boolean $allowSharing
- */
+    /**
+     * Whether shared resource link arrangements are permitted.
+     *
+     * @var boolean $allowSharing
+     */
     public $allowSharing = false;
-/**
- * Message for last request processed
- *
- * @var string $message
- */
+    /**
+     * Message for last request processed
+     *
+     * @var string $message
+     */
     public $message = self::CONNECTION_ERROR_MESSAGE;
-/**
- * Error message for last request processed.
- *
- * @var string $reason
- */
+    /**
+     * Error message for last request processed.
+     *
+     * @var string $reason
+     */
     public $reason = null;
-/**
- * Details for error message relating to last request processed.
- *
- * @var array $details
- */
+    /**
+     * Details for error message relating to last request processed.
+     *
+     * @var array $details
+     */
     public $details = array();
-/**
- * Base URL for tool provider service
- *
- * @var string $baseUrl
- */
-  public $baseUrl = null;
-/**
- * Vendor details
- *
- * @var Item $vendor
- */
-  public $vendor = null;
-/**
- * Product details
- *
- * @var Item $product
- */
-  public $product = null;
-/**
- * Services required by Tool Provider
- *
- * @var array $requiredServices
- */
-  public $requiredServices = null;
-/**
- * Optional services used by Tool Provider
- *
- * @var array $optionalServices
- */
-  public $optionalServices = null;
-/**
- * Resource handlers for Tool Provider
- *
- * @var array $resourceHandlers
- */
-  public $resourceHandlers = null;
+    /**
+     * Base URL for tool provider service
+     *
+     * @var string $baseUrl
+     */
+    public $baseUrl = null;
+    /**
+     * Vendor details
+     *
+     * @var Item $vendor
+     */
+    public $vendor = null;
+    /**
+     * Product details
+     *
+     * @var Item $product
+     */
+    public $product = null;
+    /**
+     * Services required by Tool Provider
+     *
+     * @var array $requiredServices
+     */
+    public $requiredServices = null;
+    /**
+     * Optional services used by Tool Provider
+     *
+     * @var array $optionalServices
+     */
+    public $optionalServices = null;
+    /**
+     * Resource handlers for Tool Provider
+     *
+     * @var array $resourceHandlers
+     */
+    public $resourceHandlers = null;
 
-/**
- * URL to redirect user to on successful completion of the request.
- *
- * @var string $redirectUrl
- */
+    /**
+     * URL to redirect user to on successful completion of the request.
+     *
+     * @var string $redirectUrl
+     */
     protected $redirectUrl = null;
-/**
- * URL to redirect user to on successful completion of the request.
- *
- * @var string $mediaTypes
- */
+    /**
+     * URL to redirect user to on successful completion of the request.
+     *
+     * @var string $mediaTypes
+     */
     protected $mediaTypes = null;
-/**
- * URL to redirect user to on successful completion of the request.
- *
- * @var string $documentTargets
- */
+    /**
+     * URL to redirect user to on successful completion of the request.
+     *
+     * @var string $documentTargets
+     */
     protected $documentTargets = null;
-/**
- * HTML to be displayed on a successful completion of the request.
- *
- * @var string $output
- */
+    /**
+     * HTML to be displayed on a successful completion of the request.
+     *
+     * @var string $output
+     */
     protected $output = null;
-/**
- * HTML to be displayed on an unsuccessful completion of the request and no return URL is available.
- *
- * @var string $errorOutput
- */
+    /**
+     * HTML to be displayed on an unsuccessful completion of the request and no return URL is available.
+     *
+     * @var string $errorOutput
+     */
     protected $errorOutput = null;
-/**
- * Whether debug messages explaining the cause of errors are to be returned to the tool consumer.
- *
- * @var boolean $debugMode
- */
+    /**
+     * Whether debug messages explaining the cause of errors are to be returned to the tool consumer.
+     *
+     * @var boolean $debugMode
+     */
     protected $debugMode = false;
 
-/**
- * Callback functions for handling requests.
- *
- * @var array $callbackHandler
- */
+    /**
+     * Callback functions for handling requests.
+     *
+     * @var array $callbackHandler
+     */
     private $callbackHandler = null;
-/**
- * LTI parameter constraints for auto validation checks.
- *
- * @var array $constraints
- */
+    /**
+     * LTI parameter constraints for auto validation checks.
+     *
+     * @var array $constraints
+     */
     private $constraints = null;
 
-/**
- * Class constructor
- *
- * @param DataConnector     $dataConnector    Object containing a database connection object
- */
+    /**
+     * Class constructor
+     *
+     * @param DataConnector $dataConnector Object containing a database connection object
+     */
     function __construct($dataConnector)
     {
 
@@ -332,9 +332,9 @@ class ToolProvider
 
     }
 
-/**
- * Process an incoming request
- */
+    /**
+     * Process an incoming request
+     */
     public function handleRequest()
     {
 
@@ -347,14 +347,14 @@ class ToolProvider
 
     }
 
-/**
- * Add a parameter constraint to be checked on launch
- *
- * @param string $name           Name of parameter to be checked
- * @param boolean $required      True if parameter is required (optional, default is true)
- * @param int $maxLength         Maximum permitted length of parameter value (optional, default is null)
- * @param array $messageTypes    Array of message types to which the constraint applies (optional, default is all)
- */
+    /**
+     * Add a parameter constraint to be checked on launch
+     *
+     * @param string $name Name of parameter to be checked
+     * @param boolean $required True if parameter is required (optional, default is true)
+     * @param int $maxLength Maximum permitted length of parameter value (optional, default is null)
+     * @param array $messageTypes Array of message types to which the constraint applies (optional, default is all)
+     */
     public function setParameterConstraint($name, $required = true, $maxLength = null, $messageTypes = null)
     {
 
@@ -365,11 +365,11 @@ class ToolProvider
 
     }
 
-/**
- * Get an array of defined tool consumers
- *
- * @return array Array of ToolConsumer objects
- */
+    /**
+     * Get an array of defined tool consumers
+     *
+     * @return array Array of ToolConsumer objects
+     */
     public function getConsumers()
     {
 
@@ -377,14 +377,14 @@ class ToolProvider
 
     }
 
-/**
- * Find an offered service based on a media type and HTTP action(s)
- *
- * @param string $format  Media type required
- * @param array  $methods Array of HTTP actions required
- *
- * @return object The service object
- */
+    /**
+     * Find an offered service based on a media type and HTTP action(s)
+     *
+     * @param string $format Media type required
+     * @param array $methods Array of HTTP actions required
+     *
+     * @return object The service object
+     */
     public function findService($format, $methods)
     {
 
@@ -415,11 +415,11 @@ class ToolProvider
 
     }
 
-/**
- * Send the tool proxy to the Tool Consumer
- *
- * @return boolean True if the tool proxy was accepted
- */
+    /**
+     * Send the tool proxy to the Tool Consumer
+     *
+     * @return boolean True if the tool proxy was accepted
+     */
     public function doToolProxyService()
     {
 
@@ -440,13 +440,13 @@ class ToolProvider
 
     }
 
-/**
- * Get an array of fully qualified user roles
- *
- * @param mixed $roles  Comma-separated list of roles or array of roles
- *
- * @return array Array of roles
- */
+    /**
+     * Get an array of fully qualified user roles
+     *
+     * @param mixed $roles Comma-separated list of roles or array of roles
+     *
+     * @return array Array of roles
+     */
     public static function parseRoles($roles)
     {
 
@@ -468,14 +468,14 @@ class ToolProvider
 
     }
 
-/**
- * Generate a web page containing an auto-submitted form of parameters.
- *
- * @param string $url URL to which the form should be submitted
- * @param array $params Array of form parameters
- * @param string $target Name of target (optional)
- * @return string
- */
+    /**
+     * Generate a web page containing an auto-submitted form of parameters.
+     *
+     * @param string $url URL to which the form should be submitted
+     * @param array $params Array of form parameters
+     * @param string $target Name of target (optional)
+     * @return string
+     */
     public static function sendForm($url, $params, $target = '')
     {
 
@@ -498,7 +498,7 @@ window.onload=doOnLoad;
 
 EOD;
 
-        foreach($params as $key => $value ) {
+        foreach ($params as $key => $value) {
             $key = htmlentities($key, ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $value = htmlentities($value, ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $page .= <<< EOD
@@ -522,11 +522,11 @@ EOD;
 ###    PROTECTED METHODS
 ###
 
-/**
- * Process a valid launch request
- *
- * @return boolean True if no error
- */
+    /**
+     * Process a valid launch request
+     *
+     * @return boolean True if no error
+     */
     protected function onLaunch()
     {
 
@@ -534,11 +534,11 @@ EOD;
 
     }
 
-/**
- * Process a valid content-item request
- *
- * @return boolean True if no error
- */
+    /**
+     * Process a valid content-item request
+     *
+     * @return boolean True if no error
+     */
     protected function onContentItem()
     {
 
@@ -546,22 +546,23 @@ EOD;
 
     }
 
-/**
- * Process a valid tool proxy registration request
- *
- * @return boolean True if no error
- */
-    protected function onRegister() {
+    /**
+     * Process a valid tool proxy registration request
+     *
+     * @return boolean True if no error
+     */
+    protected function onRegister()
+    {
 
         $this->onError();
 
     }
 
-/**
- * Process a response to an invalid request
- *
- * @return boolean True if no further error processing required
- */
+    /**
+     * Process a response to an invalid request
+     *
+     * @return boolean True if no further error processing required
+     */
     protected function onError()
     {
 
@@ -573,13 +574,13 @@ EOD;
 ###    PRIVATE METHODS
 ###
 
-/**
- * Call any callback function for the requested action.
- *
- * This function may set the redirect_url and output properties.
- *
- * @return boolean True if no error reported
- */
+    /**
+     * Call any callback function for the requested action.
+     *
+     * This function may set the redirect_url and output properties.
+     *
+     * @return boolean True if no error reported
+     */
     private function doCallback($method = null)
     {
 
@@ -599,13 +600,13 @@ EOD;
 
     }
 
-/**
- * Perform the result of an action.
- *
- * This function may redirect the user to another URL rather than returning a value.
- *
- * @return string Output to be displayed (redirection, or display HTML or message)
- */
+    /**
+     * Perform the result of an action.
+     *
+     * This function may redirect the user to another URL rather than returning a value.
+     *
+     * @return string Output to be displayed (redirection, or display HTML or message)
+     */
     private function result()
     {
 
@@ -664,13 +665,13 @@ EOD;
 
     }
 
-/**
- * Check the authenticity of the LTI launch request.
- *
- * The consumer, resource link and user objects will be initialised if the request is valid.
- *
- * @return boolean True if the request has been successfully validated.
- */
+    /**
+     * Check the authenticity of the LTI launch request.
+     *
+     * The consumer, resource link and user objects will be initialised if the request is valid.
+     *
+     * @return boolean True if the request has been successfully validated.
+     */
     private function authenticate()
     {
 
@@ -715,7 +716,7 @@ EOD;
                     } else {
                         foreach ($documentTargets as $documentTarget) {
                             $this->ok = $this->checkValue($documentTarget, array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay', 'none'),
-                                 'Invalid value in accept_presentation_document_targets parameter: %s.');
+                                'Invalid value in accept_presentation_document_targets parameter: %s.');
                             if (!$this->ok) {
                                 break;
                             }
@@ -735,9 +736,9 @@ EOD;
                 }
             } else if ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest') {
                 $this->ok = ((isset($_POST['reg_key']) && (strlen(trim($_POST['reg_key'])) > 0)) &&
-                             (isset($_POST['reg_password']) && (strlen(trim($_POST['reg_password'])) > 0)) &&
-                             (isset($_POST['tc_profile_url']) && (strlen(trim($_POST['tc_profile_url'])) > 0)) &&
-                             (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)));
+                    (isset($_POST['reg_password']) && (strlen(trim($_POST['reg_password'])) > 0)) &&
+                    (isset($_POST['tc_profile_url']) && (strlen(trim($_POST['tc_profile_url'])) > 0)) &&
+                    (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)));
                 if ($this->debugMode && !$this->ok) {
                     $this->reason = 'Missing message parameters.';
                 }
@@ -804,7 +805,7 @@ EOD;
                 if ($this->consumer->protected) {
                     if (!is_null($this->consumer->consumerGuid)) {
                         $this->ok = empty($_POST['tool_consumer_instance_guid']) ||
-                             ($this->consumer->consumerGuid === $_POST['tool_consumer_instance_guid']);
+                            ($this->consumer->consumerGuid === $_POST['tool_consumer_instance_guid']);
                         if (!$this->ok) {
                             $this->reason = 'Request is from an invalid tool consumer.';
                         }
@@ -854,7 +855,7 @@ EOD;
                     }
                 } else if (isset($_POST['launch_presentation_document_target'])) {
                     $this->ok = $this->checkValue($_POST['launch_presentation_document_target'], array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
-                         'Invalid value for launch_presentation_document_target parameter: %s.');
+                        'Invalid value for launch_presentation_document_target parameter: %s.');
                 }
             }
         }
@@ -1127,7 +1128,7 @@ EOD;
                     $doSaveConsumer = true;
                 }
             } else if (isset($_POST['ext_launch_presentation_css_url']) &&
-                 ($this->consumer->cssPath !== $_POST['ext_launch_presentation_css_url'])) {
+                ($this->consumer->cssPath !== $_POST['ext_launch_presentation_css_url'])) {
                 $this->consumer->cssPath = $_POST['ext_launch_presentation_css_url'];
                 $doSaveConsumer = true;
             } else if (!empty($this->consumer->cssPath)) {
@@ -1167,11 +1168,11 @@ EOD;
 
     }
 
-/**
- * Check if a share arrangement is in place.
- *
- * @return boolean True if no error is reported
- */
+    /**
+     * Check if a share arrangement is in place.
+     *
+     * @return boolean True if no error is reported
+     */
     private function checkForShare()
     {
 
@@ -1255,11 +1256,11 @@ EOD;
 
     }
 
-/**
- * Validate a parameter value from an array of permitted values.
- *
- * @return boolean True if value is valid
- */
+    /**
+     * Validate a parameter value from an array of permitted values.
+     *
+     * @return boolean True if value is valid
+     */
     private function checkValue($value, $values, $reason)
     {
 

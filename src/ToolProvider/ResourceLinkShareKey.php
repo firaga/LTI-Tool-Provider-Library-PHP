@@ -16,73 +16,73 @@ use IMSGlobal\LTI\ToolProvider\DataConnector\DataConnector;
 class ResourceLinkShareKey
 {
 
-/**
- * Maximum permitted life for a share key value.
- */
+    /**
+     * Maximum permitted life for a share key value.
+     */
     const MAX_SHARE_KEY_LIFE = 168;  // in hours (1 week)
-/**
- * Default life for a share key value.
- */
+    /**
+     * Default life for a share key value.
+     */
     const DEFAULT_SHARE_KEY_LIFE = 24;  // in hours
-/**
- * Minimum length for a share key value.
- */
+    /**
+     * Minimum length for a share key value.
+     */
     const MIN_SHARE_KEY_LENGTH = 5;
-/**
- * Maximum length for a share key value.
- */
+    /**
+     * Maximum length for a share key value.
+     */
     const MAX_SHARE_KEY_LENGTH = 32;
 
-/**
- * ID for resource link being shared.
- *
- * @var string $resourceLinkId
- */
+    /**
+     * ID for resource link being shared.
+     *
+     * @var string $resourceLinkId
+     */
     public $resourceLinkId = null;
-/**
- * Length of share key.
- *
- * @var int $length
- */
+    /**
+     * Length of share key.
+     *
+     * @var int $length
+     */
     public $length = null;
-/**
- * Life of share key.
- *
- * @var int $life
- */
+    /**
+     * Life of share key.
+     *
+     * @var int $life
+     */
     public $life = null;  // in hours
-/**
- * Whether the sharing arrangement should be automatically approved when first used.
- *
- * @var boolean $autoApprove
- */
+    /**
+     * Whether the sharing arrangement should be automatically approved when first used.
+     *
+     * @var boolean $autoApprove
+     */
     public $autoApprove = false;
-/**
- * Date/time when the share key expires.
- *
- * @var int $expires
- */
+    /**
+     * Date/time when the share key expires.
+     *
+     * @var int $expires
+     */
     public $expires = null;
 
-/**
- * Share key value.
- *
- * @var string $id
- */
+    /**
+     * Share key value.
+     *
+     * @var string $id
+     */
     private $id = null;
-/**
- * Data connector.
- *
- * @var DataConnector $dataConnector
- */
+    /**
+     * Data connector.
+     *
+     * @var DataConnector $dataConnector
+     */
     private $dataConnector = null;
 
-/**
- * Class constructor.
- *
- * @param ResourceLink $resourceLink  Resource_Link object
- * @param string       $id      Value of share key (optional, default is null)
- */
+    /**
+     * Class constructor.
+     *
+     * @param ResourceLink $resourceLink Resource_Link object
+     * @param string $id Value of share key (optional, default is null)
+     */
     public function __construct($resourceLink, $id = null)
     {
 
@@ -96,9 +96,9 @@ class ResourceLinkShareKey
 
     }
 
-/**
- * Initialise the resource link share key.
- */
+    /**
+     * Initialise the resource link share key.
+     */
     public function initialize()
     {
 
@@ -109,11 +109,11 @@ class ResourceLinkShareKey
 
     }
 
-/**
- * Initialise the resource link share key.
- *
- * Pseudonym for initialize().
- */
+    /**
+     * Initialise the resource link share key.
+     *
+     * Pseudonym for initialize().
+     */
     public function initialise()
     {
 
@@ -121,11 +121,11 @@ class ResourceLinkShareKey
 
     }
 
-/**
- * Save the resource link share key to the database.
- *
- * @return boolean True if the share key was successfully saved
- */
+    /**
+     * Save the resource link share key to the database.
+     *
+     * @return boolean True if the share key was successfully saved
+     */
     public function save()
     {
 
@@ -148,11 +148,11 @@ class ResourceLinkShareKey
 
     }
 
-/**
- * Delete the resource link share key from the database.
- *
- * @return boolean True if the share key was successfully deleted
- */
+    /**
+     * Delete the resource link share key from the database.
+     *
+     * @return boolean True if the share key was successfully deleted
+     */
     public function delete()
     {
 
@@ -160,11 +160,11 @@ class ResourceLinkShareKey
 
     }
 
-/**
- * Get share key value.
- *
- * @return string Share key value
- */
+    /**
+     * Get share key value.
+     *
+     * @return string Share key value
+     */
     public function getId()
     {
 
@@ -176,9 +176,9 @@ class ResourceLinkShareKey
 ###  PRIVATE METHOD
 ###
 
-/**
- * Load the resource link share key from the database.
- */
+    /**
+     * Load the resource link share key from the database.
+     */
     private function load()
     {
 

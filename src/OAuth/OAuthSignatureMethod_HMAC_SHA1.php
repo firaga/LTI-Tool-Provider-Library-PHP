@@ -9,6 +9,7 @@ namespace IMSGlobal\LTI\OAuth;
  * @version 2008-08-04
  * @license https://opensource.org/licenses/MIT The MIT License
  */
+
 /**
  * The HMAC-SHA1 signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC2104]
  * where the Signature Base String is the text and the key is the concatenated values (each first
@@ -16,20 +17,23 @@ namespace IMSGlobal\LTI\OAuth;
  * character (ASCII code 38) even if empty.
  *   - Chapter 9.2 ("HMAC-SHA1")
  */
-class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
+class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
+{
 
-    function get_name() {
+    function get_name()
+    {
         return "HMAC-SHA1";
     }
 
-    public function build_signature($request, $consumer, $token) {
+    public function build_signature($request, $consumer, $token)
+    {
 
         $base_string = $request->get_signature_base_string();
         $request->base_string = $base_string;
 
         $key_parts = array(
-          $consumer->secret,
-          ($token) ? $token->secret : ""
+            $consumer->secret,
+            ($token) ? $token->secret : ""
         );
 
         $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);

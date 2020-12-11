@@ -19,141 +19,141 @@ use IMSGlobal\LTI\OAuth;
 class ToolConsumer
 {
 
-/**
- * Local name of tool consumer.
- *
- * @var string $name
- */
+    /**
+     * Local name of tool consumer.
+     *
+     * @var string $name
+     */
     public $name = null;
-/**
- * Shared secret.
- *
- * @var string $secret
- */
+    /**
+     * Shared secret.
+     *
+     * @var string $secret
+     */
     public $secret = null;
-/**
- * LTI version (as reported by last tool consumer connection).
- *
- * @var string $ltiVersion
- */
+    /**
+     * LTI version (as reported by last tool consumer connection).
+     *
+     * @var string $ltiVersion
+     */
     public $ltiVersion = null;
-/**
- * Name of tool consumer (as reported by last tool consumer connection).
- *
- * @var string $consumerName
- */
+    /**
+     * Name of tool consumer (as reported by last tool consumer connection).
+     *
+     * @var string $consumerName
+     */
     public $consumerName = null;
-/**
- * Tool consumer version (as reported by last tool consumer connection).
- *
- * @var string $consumerVersion
- */
+    /**
+     * Tool consumer version (as reported by last tool consumer connection).
+     *
+     * @var string $consumerVersion
+     */
     public $consumerVersion = null;
-/**
- * Tool consumer GUID (as reported by first tool consumer connection).
- *
- * @var string $consumerGuid
- */
+    /**
+     * Tool consumer GUID (as reported by first tool consumer connection).
+     *
+     * @var string $consumerGuid
+     */
     public $consumerGuid = null;
-/**
- * Optional CSS path (as reported by last tool consumer connection).
- *
- * @var string $cssPath
- */
+    /**
+     * Optional CSS path (as reported by last tool consumer connection).
+     *
+     * @var string $cssPath
+     */
     public $cssPath = null;
-/**
- * Whether the tool consumer instance is protected by matching the consumer_guid value in incoming requests.
- *
- * @var boolean $protected
- */
+    /**
+     * Whether the tool consumer instance is protected by matching the consumer_guid value in incoming requests.
+     *
+     * @var boolean $protected
+     */
     public $protected = false;
-/**
- * Whether the tool consumer instance is enabled to accept incoming connection requests.
- *
- * @var boolean $enabled
- */
+    /**
+     * Whether the tool consumer instance is enabled to accept incoming connection requests.
+     *
+     * @var boolean $enabled
+     */
     public $enabled = false;
-/**
- * Date/time from which the the tool consumer instance is enabled to accept incoming connection requests.
- *
- * @var int $enableFrom
- */
+    /**
+     * Date/time from which the the tool consumer instance is enabled to accept incoming connection requests.
+     *
+     * @var int $enableFrom
+     */
     public $enableFrom = null;
-/**
- * Date/time until which the tool consumer instance is enabled to accept incoming connection requests.
- *
- * @var int $enableUntil
- */
+    /**
+     * Date/time until which the tool consumer instance is enabled to accept incoming connection requests.
+     *
+     * @var int $enableUntil
+     */
     public $enableUntil = null;
-/**
- * Date of last connection from this tool consumer.
- *
- * @var int $lastAccess
- */
+    /**
+     * Date of last connection from this tool consumer.
+     *
+     * @var int $lastAccess
+     */
     public $lastAccess = null;
-/**
- * Default scope to use when generating an Id value for a user.
- *
- * @var int $idScope
- */
+    /**
+     * Default scope to use when generating an Id value for a user.
+     *
+     * @var int $idScope
+     */
     public $idScope = ToolProvider::ID_SCOPE_ID_ONLY;
-/**
- * Default email address (or email domain) to use when no email address is provided for a user.
- *
- * @var string $defaultEmail
- */
+    /**
+     * Default email address (or email domain) to use when no email address is provided for a user.
+     *
+     * @var string $defaultEmail
+     */
     public $defaultEmail = '';
-/**
- * Setting values (LTI parameters, custom parameters and local parameters).
- *
- * @var array $settings
- */
+    /**
+     * Setting values (LTI parameters, custom parameters and local parameters).
+     *
+     * @var array $settings
+     */
     public $settings = null;
-/**
- * Date/time when the object was created.
- *
- * @var int $created
- */
+    /**
+     * Date/time when the object was created.
+     *
+     * @var int $created
+     */
     public $created = null;
-/**
- * Date/time when the object was last updated.
- *
- * @var int $updated
- */
+    /**
+     * Date/time when the object was last updated.
+     *
+     * @var int $updated
+     */
     public $updated = null;
 
-/**
- * Consumer ID value.
- *
- * @var int $id
- */
+    /**
+     * Consumer ID value.
+     *
+     * @var int $id
+     */
     private $id = null;
-/**
- * Consumer key value.
- *
- * @var string $key
- */
+    /**
+     * Consumer key value.
+     *
+     * @var string $key
+     */
     private $key = null;
-/**
- * Whether the settings value have changed since last saved.
- *
- * @var boolean $settingsChanged
- */
+    /**
+     * Whether the settings value have changed since last saved.
+     *
+     * @var boolean $settingsChanged
+     */
     private $settingsChanged = false;
-/**
- * Data connector object or string.
- *
- * @var mixed $dataConnector
- */
+    /**
+     * Data connector object or string.
+     *
+     * @var mixed $dataConnector
+     */
     private $dataConnector = null;
 
-/**
- * Class constructor.
- *
- * @param string  $key             Consumer key
- * @param DataConnector   $dataConnector   A data connector object
- * @param boolean $autoEnable      true if the tool consumers is to be enabled automatically (optional, default is false)
- */
+    /**
+     * Class constructor.
+     *
+     * @param string $key Consumer key
+     * @param DataConnector $dataConnector A data connector object
+     * @param boolean $autoEnable true if the tool consumers is to be enabled automatically (optional, default is false)
+     */
     public function __construct($key = null, $dataConnector = null, $autoEnable = false)
     {
 
@@ -170,9 +170,9 @@ class ToolConsumer
 
     }
 
-/**
- * Initialise the tool consumer.
- */
+    /**
+     * Initialise the tool consumer.
+     */
     public function initialize()
     {
 
@@ -199,11 +199,11 @@ class ToolConsumer
 
     }
 
-/**
- * Initialise the tool consumer.
- *
- * Pseudonym for initialize().
- */
+    /**
+     * Initialise the tool consumer.
+     *
+     * Pseudonym for initialize().
+     */
     public function initialise()
     {
 
@@ -211,11 +211,11 @@ class ToolConsumer
 
     }
 
-/**
- * Save the tool consumer to the database.
- *
- * @return boolean True if the object was successfully saved
- */
+    /**
+     * Save the tool consumer to the database.
+     *
+     * @return boolean True if the object was successfully saved
+     */
     public function save()
     {
 
@@ -228,11 +228,11 @@ class ToolConsumer
 
     }
 
-/**
- * Delete the tool consumer from the database.
- *
- * @return boolean True if the object was successfully deleted
- */
+    /**
+     * Delete the tool consumer from the database.
+     *
+     * @return boolean True if the object was successfully deleted
+     */
     public function delete()
     {
 
@@ -240,11 +240,11 @@ class ToolConsumer
 
     }
 
-/**
- * Get the tool consumer record ID.
- *
- * @return int Consumer record ID value
- */
+    /**
+     * Get the tool consumer record ID.
+     *
+     * @return int Consumer record ID value
+     */
     public function getRecordId()
     {
 
@@ -252,11 +252,11 @@ class ToolConsumer
 
     }
 
-/**
- * Sets the tool consumer record ID.
- *
- * @param int $id  Consumer record ID value
- */
+    /**
+     * Sets the tool consumer record ID.
+     *
+     * @param int $id Consumer record ID value
+     */
     public function setRecordId($id)
     {
 
@@ -264,11 +264,11 @@ class ToolConsumer
 
     }
 
-/**
- * Get the tool consumer key.
- *
- * @return string Consumer key value
- */
+    /**
+     * Get the tool consumer key.
+     *
+     * @return string Consumer key value
+     */
     public function getKey()
     {
 
@@ -276,11 +276,11 @@ class ToolConsumer
 
     }
 
-/**
- * Set the tool consumer key.
- *
- * @param string $key  Consumer key value
- */
+    /**
+     * Set the tool consumer key.
+     *
+     * @param string $key Consumer key value
+     */
     public function setKey($key)
     {
 
@@ -288,11 +288,11 @@ class ToolConsumer
 
     }
 
-/**
- * Get the data connector.
- *
- * @return mixed Data connector object or string
- */
+    /**
+     * Get the data connector.
+     *
+     * @return mixed Data connector object or string
+     */
     public function getDataConnector()
     {
 
@@ -300,11 +300,11 @@ class ToolConsumer
 
     }
 
-/**
- * Is the consumer key available to accept launch requests?
- *
- * @return boolean True if the consumer key is enabled and within any date constraints
- */
+    /**
+     * Is the consumer key available to accept launch requests?
+     *
+     * @return boolean True if the consumer key is enabled and within any date constraints
+     */
     public function getIsAvailable()
     {
 
@@ -322,14 +322,14 @@ class ToolConsumer
 
     }
 
-/**
- * Get a setting value.
- *
- * @param string $name    Name of setting
- * @param string $default Value to return if the setting does not exist (optional, default is an empty string)
- *
- * @return string Setting value
- */
+    /**
+     * Get a setting value.
+     *
+     * @param string $name Name of setting
+     * @param string $default Value to return if the setting does not exist (optional, default is an empty string)
+     *
+     * @return string Setting value
+     */
     public function getSetting($name, $default = '')
     {
 
@@ -343,12 +343,12 @@ class ToolConsumer
 
     }
 
-/**
- * Set a setting value.
- *
- * @param string $name  Name of setting
- * @param string $value Value to set, use an empty value to delete a setting (optional, default is null)
- */
+    /**
+     * Set a setting value.
+     *
+     * @param string $name Name of setting
+     * @param string $value Value to set, use an empty value to delete a setting (optional, default is null)
+     */
     public function setSetting($name, $value = null)
     {
 
@@ -364,11 +364,11 @@ class ToolConsumer
 
     }
 
-/**
- * Get an array of all setting values.
- *
- * @return array Associative array of setting values
- */
+    /**
+     * Get an array of all setting values.
+     *
+     * @return array Associative array of setting values
+     */
     public function getSettings()
     {
 
@@ -376,11 +376,11 @@ class ToolConsumer
 
     }
 
-/**
- * Set an array of all setting values.
- *
- * @param array $settings  Associative array of setting values
- */
+    /**
+     * Set an array of all setting values.
+     *
+     * @param array $settings Associative array of setting values
+     */
     public function setSettings($settings)
     {
 
@@ -388,11 +388,11 @@ class ToolConsumer
 
     }
 
-/**
- * Save setting values.
- *
- * @return boolean True if the settings were successfully saved
- */
+    /**
+     * Save setting values.
+     *
+     * @return boolean True if the settings were successfully saved
+     */
     public function saveSettings()
     {
 
@@ -406,11 +406,11 @@ class ToolConsumer
 
     }
 
-/**
- * Check if the Tool Settings service is supported.
- *
- * @return boolean True if this tool consumer supports the Tool Settings service
- */
+    /**
+     * Check if the Tool Settings service is supported.
+     *
+     * @return boolean True if this tool consumer supports the Tool Settings service
+     */
     public function hasToolSettingsService()
     {
 
@@ -420,13 +420,13 @@ class ToolConsumer
 
     }
 
-/**
- * Get Tool Settings.
- *
- * @param boolean  $simple     True if all the simple media type is to be used (optional, default is true)
- *
- * @return mixed The array of settings if successful, otherwise false
- */
+    /**
+     * Get Tool Settings.
+     *
+     * @param boolean $simple True if all the simple media type is to be used (optional, default is true)
+     *
+     * @return mixed The array of settings if successful, otherwise false
+     */
     public function getToolSettings($simple = true)
     {
 
@@ -438,13 +438,13 @@ class ToolConsumer
 
     }
 
-/**
- * Perform a Tool Settings service request.
- *
- * @param array    $settings   An associative array of settings (optional, default is none)
- *
- * @return boolean True if action was successful, otherwise false
- */
+    /**
+     * Perform a Tool Settings service request.
+     *
+     * @param array $settings An associative array of settings (optional, default is none)
+     *
+     * @return boolean True if action was successful, otherwise false
+     */
     public function setToolSettings($settings = array())
     {
 
@@ -456,16 +456,16 @@ class ToolConsumer
 
     }
 
-/**
- * Add the OAuth signature to an LTI message.
- *
- * @param string  $url         URL for message request
- * @param string  $type        LTI message type
- * @param string  $version     LTI version
- * @param array   $params      Message parameters
- *
- * @return array Array of signed message parameters
- */
+    /**
+     * Add the OAuth signature to an LTI message.
+     *
+     * @param string $url URL for message request
+     * @param string $type LTI message type
+     * @param string $version LTI version
+     * @param array $params Message parameters
+     *
+     * @return array Array of signed message parameters
+     */
     public function signParameters($url, $type, $version, $params)
     {
 
@@ -505,11 +505,11 @@ class ToolConsumer
 
     }
 
-/**
- * Add the OAuth signature to an array of message parameters or to a header string.
- *
- * @return mixed Array of signed message parameters or header string
- */
+    /**
+     * Add the OAuth signature to an array of message parameters or to a header string.
+     *
+     * @return mixed Array of signed message parameters or header string
+     */
     public static function addSignature($endpoint, $consumerKey, $consumerSecret, $data, $method = 'POST', $type = null)
     {
 
@@ -567,16 +567,16 @@ class ToolConsumer
 
     }
 
-/**
- * Perform a service request
- *
- * @param object $service  Service object to be executed
- * @param string $method   HTTP action
- * @param string $format   Media type
- * @param mixed  $data     Array of parameters or body string
- *
- * @return HTTPMessage HTTP object containing request and response details
- */
+    /**
+     * Perform a service request
+     *
+     * @param object $service Service object to be executed
+     * @param string $method HTTP action
+     * @param string $format Media type
+     * @param mixed $data Array of parameters or body string
+     *
+     * @return HTTPMessage HTTP object containing request and response details
+     */
     public function doServiceRequest($service, $method, $format, $data)
     {
 
@@ -594,14 +594,14 @@ class ToolConsumer
 
     }
 
-/**
- * Load the tool consumer from the database by its record ID.
- *
- * @param string          $id                The consumer key record ID
- * @param DataConnector   $dataConnector    Database connection object
- *
- * @return object ToolConsumer       The tool consumer object
- */
+    /**
+     * Load the tool consumer from the database by its record ID.
+     *
+     * @param string $id The consumer key record ID
+     * @param DataConnector $dataConnector Database connection object
+     *
+     * @return object ToolConsumer       The tool consumer object
+     */
     public static function fromRecordId($id, $dataConnector)
     {
 
@@ -622,14 +622,14 @@ class ToolConsumer
 ###  PRIVATE METHOD
 ###
 
-/**
- * Load the tool consumer from the database.
- *
- * @param string  $key        The consumer key value
- * @param boolean $autoEnable True if the consumer should be enabled (optional, default if false)
- *
- * @return boolean True if the consumer was successfully loaded
- */
+    /**
+     * Load the tool consumer from the database.
+     *
+     * @param string $key The consumer key value
+     * @param boolean $autoEnable True if the consumer should be enabled (optional, default if false)
+     *
+     * @return boolean True if the consumer was successfully loaded
+     */
     private function load($key, $autoEnable = false)
     {
 

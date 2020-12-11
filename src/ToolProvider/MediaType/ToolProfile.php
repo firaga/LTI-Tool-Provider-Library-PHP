@@ -1,6 +1,7 @@
 <?php
 
 namespace IMSGlobal\LTI\ToolProvider\MediaType;
+
 use IMSGlobal\LTI\ToolProvider\ToolProvider;
 
 /**
@@ -17,11 +18,11 @@ class ToolProfile
 
     public $product_instance;
 
-/**
- * Class constructor.
- *
- * @param ToolProvider $toolProvider   Tool Provider object
- */
+    /**
+     * Class constructor.
+     *
+     * @param ToolProvider $toolProvider Tool Provider object
+     */
     function __construct($toolProvider)
     {
 

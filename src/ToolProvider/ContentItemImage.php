@@ -14,13 +14,13 @@ namespace IMSGlobal\LTI\ToolProvider;
 class ContentItemImage
 {
 
-/**
- * Class constructor.
- *
- * @param string $id      URL of image
- * @param int    $height  Height of image in pixels (optional)
- * @param int    $width   Width of image in pixels (optional)
- */
+    /**
+     * Class constructor.
+     *
+     * @param string $id URL of image
+     * @param int $height Height of image in pixels (optional)
+     * @param int $width Width of image in pixels (optional)
+     */
     function __construct($id, $height = null, $width = null)
     {
 

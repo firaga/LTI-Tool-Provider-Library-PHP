@@ -14,18 +14,18 @@ namespace IMSGlobal\LTI\ToolProvider;
 class ContentItem
 {
 
-/**
- * Media type for LTI launch links.
- */
+    /**
+     * Media type for LTI launch links.
+     */
     const LTI_LINK_MEDIA_TYPE = 'application/vnd.ims.lti.v1.ltilink';
 
-/**
- * Class constructor.
- *
- * @param string $type Class type of content-item
- * @param ContentItemPlacement $placementAdvice  Placement object for item (optional)
- * @param string $id   URL of content-item (optional)
- */
+    /**
+     * Class constructor.
+     *
+     * @param string $type Class type of content-item
+     * @param ContentItemPlacement $placementAdvice Placement object for item (optional)
+     * @param string $id URL of content-item (optional)
+     */
     function __construct($type, $placementAdvice = null, $id = null)
     {
 
@@ -39,11 +39,11 @@ class ContentItem
 
     }
 
-/**
- * Set a URL value for the content-item.
- *
- * @param string $url  URL value
- */
+    /**
+     * Set a URL value for the content-item.
+     *
+     * @param string $url URL value
+     */
     public function setUrl($url)
     {
 
@@ -55,11 +55,11 @@ class ContentItem
 
     }
 
-/**
- * Set a media type value for the content-item.
- *
- * @param string $mediaType  Media type value
- */
+    /**
+     * Set a media type value for the content-item.
+     *
+     * @param string $mediaType Media type value
+     */
     public function setMediaType($mediaType)
     {
 
@@ -71,11 +71,11 @@ class ContentItem
 
     }
 
-/**
- * Set a title value for the content-item.
- *
- * @param string $title  Title value
- */
+    /**
+     * Set a title value for the content-item.
+     *
+     * @param string $title Title value
+     */
     public function setTitle($title)
     {
 
@@ -87,11 +87,11 @@ class ContentItem
 
     }
 
-/**
- * Set a link text value for the content-item.
- *
- * @param string $text  Link text value
- */
+    /**
+     * Set a link text value for the content-item.
+     *
+     * @param string $text Link text value
+     */
     public function setText($text)
     {
 
@@ -103,32 +103,32 @@ class ContentItem
 
     }
 
-/**
- * Wrap the content items to form a complete application/vnd.ims.lti.v1.contentitems+json media type instance.
- *
- * @param mixed $items An array of content items or a single item
- * @return string
- */
+    /**
+     * Wrap the content items to form a complete application/vnd.ims.lti.v1.contentitems+json media type instance.
+     *
+     * @param mixed $items An array of content items or a single item
+     * @return string
+     */
     public static function toJson($items)
     {
-/*
-        $data = array();
-        if (!is_array($items)) {
-            $data[] = json_encode($items);
-        } else {
-            foreach ($items as $item) {
-                $data[] = json_encode($item);
-            }
-        }
-        $json = '{ "@context" : "http://purl.imsglobal.org/ctx/lti/v1/ContentItem", "@graph" : [' . implode(", ", $data) . '] }';
-*/
+        /*
+                $data = array();
+                if (!is_array($items)) {
+                    $data[] = json_encode($items);
+                } else {
+                    foreach ($items as $item) {
+                        $data[] = json_encode($item);
+                    }
+                }
+                $json = '{ "@context" : "http://purl.imsglobal.org/ctx/lti/v1/ContentItem", "@graph" : [' . implode(", ", $data) . '] }';
+        */
         $obj = new \stdClass();
         $obj->{'@context'} = 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem';
         if (!is_array($items)) {
-          $obj->{'@graph'} = array();
-          $obj->{'@graph'}[] = $items;
+            $obj->{'@graph'} = array();
+            $obj->{'@graph'}[] = $items;
         } else {
-          $obj->{'@graph'} = $items;
+            $obj->{'@graph'} = $items;
         }
 
         return json_encode($obj);

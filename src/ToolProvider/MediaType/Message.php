@@ -14,12 +14,12 @@ namespace IMSGlobal\LTI\ToolProvider\MediaType;
 class Message
 {
 
-/**
- * Class constructor.
- *
- * @param Message $message               Message object
- * @param array   $capabilitiesOffered   Capabilities offered
- */
+    /**
+     * Class constructor.
+     *
+     * @param Message $message Message object
+     * @param array $capabilitiesOffered Capabilities offered
+     */
     function __construct($message, $capabilitiesOffered)
     {
 

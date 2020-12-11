@@ -14,48 +14,48 @@ namespace IMSGlobal\LTI\ToolProvider\Service;
 class ToolSettings extends Service
 {
 
-/**
- * Settings at current level mode.
- */
+    /**
+     * Settings at current level mode.
+     */
     const MODE_CURRENT_LEVEL = 1;
-/**
- * Settings at all levels mode.
- */
+    /**
+     * Settings at all levels mode.
+     */
     const MODE_ALL_LEVELS = 2;
-/**
- * Settings with distinct names at all levels mode.
- */
+    /**
+     * Settings with distinct names at all levels mode.
+     */
     const MODE_DISTINCT_NAMES = 3;
 
-/**
- * Names of LTI parameters to be retained in the consumer settings property.
- *
- * @var array $LEVEL_NAMES
- */
+    /**
+     * Names of LTI parameters to be retained in the consumer settings property.
+     *
+     * @var array $LEVEL_NAMES
+     */
     private static $LEVEL_NAMES = array('ToolProxy' => 'system',
-                                        'ToolProxyBinding' => 'context',
-                                        'LtiLink' => 'link');
+        'ToolProxyBinding' => 'context',
+        'LtiLink' => 'link');
 
-/**
- * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
- *
- * @var object  $source
- */
+    /**
+     * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
+     *
+     * @var object $source
+     */
     private $source;
-/**
- * Whether to use the simple JSON format.
- *
- * @var boolean  $simple
- */
+    /**
+     * Whether to use the simple JSON format.
+     *
+     * @var boolean $simple
+     */
     private $simple;
 
-/**
- * Class constructor.
- *
- * @param object       $source     The object to which the settings apply (ResourceLink, Context or ToolConsumer)
- * @param string       $endpoint   Service endpoint
- * @param boolean      $simple     True if the simple media type is to be used (optional, default is true)
- */
+    /**
+     * Class constructor.
+     *
+     * @param object $source The object to which the settings apply (ResourceLink, Context or ToolConsumer)
+     * @param string $endpoint Service endpoint
+     * @param boolean $simple True if the simple media type is to be used (optional, default is true)
+     */
     public function __construct($source, $endpoint, $simple = true)
     {
 
@@ -75,14 +75,15 @@ class ToolSettings extends Service
 
     }
 
-/**
- * Get the tool settings.
- *
- * @param int          $mode       Mode for request (optional, default is current level only)
- *
- * @return mixed The array of settings if successful, otherwise false
- */
-    public function get($mode = self::MODE_CURRENT_LEVEL) {
+    /**
+     * Get the tool settings.
+     *
+     * @param int $mode Mode for request (optional, default is current level only)
+     *
+     * @return mixed The array of settings if successful, otherwise false
+     */
+    public function get($mode = self::MODE_CURRENT_LEVEL)
+    {
 
         $parameter = array();
         if ($mode === self::MODE_ALL_LEVELS) {
@@ -108,14 +109,15 @@ class ToolSettings extends Service
 
     }
 
-/**
- * Set the tool settings.
- *
- * @param array  $settings  An associative array of settings (optional, default is null)
- *
- * @return HTTPMessage HTTP object containing request and response details
- */
-    public function set($settings) {
+    /**
+     * Set the tool settings.
+     *
+     * @param array $settings An associative array of settings (optional, default is null)
+     *
+     * @return HTTPMessage HTTP object containing request and response details
+     */
+    public function set($settings)
+    {
 
         if (!$this->simple) {
             if (is_a($this->source, 'ToolConsumer')) {

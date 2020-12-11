@@ -17,13 +17,13 @@ use IMSGlobal\LTI\ToolProvider\ToolProvider;
 class ToolProxy
 {
 
-/**
- * Class constructor.
- *
- * @param ToolProvider $toolProvider   Tool Provider object
- * @param ServiceDefinition $toolProxyService  Tool Proxy service
- * @param string $secret  Shared secret
- */
+    /**
+     * Class constructor.
+     *
+     * @param ToolProvider $toolProvider Tool Provider object
+     * @param ServiceDefinition $toolProxyService Tool Proxy service
+     * @param string $secret Shared secret
+     */
     function __construct($toolProvider, $toolProxyService, $secret)
     {
 

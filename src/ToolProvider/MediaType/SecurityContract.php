@@ -1,6 +1,7 @@
 <?php
 
 namespace IMSGlobal\LTI\ToolProvider\MediaType;
+
 use IMSGlobal\LTI\ToolProvider\ToolProvider;
 
 /**
@@ -15,20 +16,20 @@ use IMSGlobal\LTI\ToolProvider\ToolProvider;
 class SecurityContract
 {
 
-/**
- * Class constructor.
- *
- * @param ToolProvider $toolProvider  Tool Provider instance
- * @param string $secret Shared secret
- */
+    /**
+     * Class constructor.
+     *
+     * @param ToolProvider $toolProvider Tool Provider instance
+     * @param string $secret Shared secret
+     */
     function __construct($toolProvider, $secret)
     {
 
         $tcContexts = array();
         foreach ($toolProvider->consumer->profile->{'@context'} as $context) {
-          if (is_object($context)) {
-            $tcContexts = array_merge(get_object_vars($context), $tcContexts);
-          }
+            if (is_object($context)) {
+                $tcContexts = array_merge(get_object_vars($context), $tcContexts);
+            }
         }
 
         $this->shared_secret = $secret;
