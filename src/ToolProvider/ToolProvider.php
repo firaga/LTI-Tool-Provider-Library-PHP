@@ -1153,6 +1153,7 @@ EOD;
             $this->resourceLink->save();
 
 // Save the user instance
+            $this->user->setResourceLinkId($this->resourceLink->getRecordId());
             if (isset($_POST['lis_result_sourcedid'])) {
                 if ($this->user->ltiResultSourcedId !== $_POST['lis_result_sourcedid']) {
                     $this->user->ltiResultSourcedId = $_POST['lis_result_sourcedid'];

@@ -38,15 +38,19 @@ class OAuthRequest
     public static function from_request($http_method = null, $http_url = null, $parameters = null)
     {
 
-        $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
-            ? 'http'
-            : 'https';
-        $http_url = ($http_url) ? $http_url : $scheme .
-            '://' . $_SERVER['SERVER_NAME'] .
-            ':' .
-            $_SERVER['SERVER_PORT'] .
-            $_SERVER['REQUEST_URI'];
+        // add proxy support
+        //https://github.com/Izumi-kun/LTI-Tool-Provider-Library-PHP
+        if (!$http_url) {
+            if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+                $scheme = ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
+            } else {
+                $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? 'http' : 'https';
+            }
+            $host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
+            $http_url = $scheme . '://' . $host . $_SERVER['REQUEST_URI'];
+        }
         $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
+
 
         // We weren't handed any parameters, so let's find the ones relevant to
         // this request.
